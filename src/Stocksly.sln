@@ -1,0 +1,45 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.23107.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Stocksly.Data", "Stocksly.Data\Stocksly.Data.csproj", "{F62AF3C2-8ED6-407F-9B5A-FCFF97CB84C0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Stocksly.Model", "Stocksly.Model\Stocksly.Model.csproj", "{EDB29285-EAA9-4674-BAD6-F9A2F9477BA4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Stocksly.Data.Services", "Stocksly.Data.Services\Stocksly.Data.Services.csproj", "{0E547C7E-0B2C-453F-BEAA-2448B65D7405}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".git", ".git", "{B57C2C25-8205-4CDB-BA27-EAE637CC2AC5}"
+	ProjectSection(SolutionItems) = preProject
+		.gitignore = .gitignore
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".build", ".build", "{987008E6-B1DE-4CE9-BEE7-CC7852991189}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".doc", ".doc", "{13C5DACD-F947-41A5-AC0D-95316CCA88C1}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".db", ".db", "{897955B7-47D3-442B-949A-C32C198EDDCA}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F62AF3C2-8ED6-407F-9B5A-FCFF97CB84C0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F62AF3C2-8ED6-407F-9B5A-FCFF97CB84C0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F62AF3C2-8ED6-407F-9B5A-FCFF97CB84C0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F62AF3C2-8ED6-407F-9B5A-FCFF97CB84C0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EDB29285-EAA9-4674-BAD6-F9A2F9477BA4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EDB29285-EAA9-4674-BAD6-F9A2F9477BA4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EDB29285-EAA9-4674-BAD6-F9A2F9477BA4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EDB29285-EAA9-4674-BAD6-F9A2F9477BA4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0E547C7E-0B2C-453F-BEAA-2448B65D7405}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0E547C7E-0B2C-453F-BEAA-2448B65D7405}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0E547C7E-0B2C-453F-BEAA-2448B65D7405}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0E547C7E-0B2C-453F-BEAA-2448B65D7405}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
