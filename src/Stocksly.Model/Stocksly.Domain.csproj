@@ -7,8 +7,8 @@
     <ProjectGuid>{EDB29285-EAA9-4674-BAD6-F9A2F9477BA4}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Stocksly.Model</RootNamespace>
-    <AssemblyName>Stocksly.Model</AssemblyName>
+    <RootNamespace>Stocksly.Domain</RootNamespace>
+    <AssemblyName>Stocksly.Domain</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -40,8 +40,24 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Core\Address.cs" />
+    <Compile Include="Customers\Customer.cs" />
+    <Compile Include="Customers\ICustomersRepository.cs" />
+    <Compile Include="Inventory\Category.cs" />
+    <Compile Include="Inventory\ICategoriesRepository.cs" />
+    <Compile Include="Inventory\IProductsRepository.cs" />
+    <Compile Include="Inventory\Product.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Purchasing\IPurchaseOrdersRepository.cs" />
+    <Compile Include="Purchasing\PurchaseOrder.cs" />
+    <Compile Include="Purchasing\PurchaseOrderItem.cs" />
+    <Compile Include="Sales\ISalesOrdersRepository.cs" />
+    <Compile Include="Sales\SalesOrder.cs" />
+    <Compile Include="Sales\SalesOrderItem.cs" />
+    <Compile Include="Suppliers\ISuppliersRepository.cs" />
+    <Compile Include="Suppliers\Supplier.cs" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
