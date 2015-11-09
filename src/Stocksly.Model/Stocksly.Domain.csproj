@@ -47,6 +47,9 @@
     <Compile Include="Inventory\ICategoriesRepository.cs" />
     <Compile Include="Inventory\IProductsRepository.cs" />
     <Compile Include="Inventory\Product.cs" />
+    <Compile Include="Inventory\ProductBrief.cs" />
+    <Compile Include="IRepository.cs" />
+    <Compile Include="IStockslyUow.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Purchasing\IPurchaseOrdersRepository.cs" />
     <Compile Include="Purchasing\PurchaseOrder.cs" />

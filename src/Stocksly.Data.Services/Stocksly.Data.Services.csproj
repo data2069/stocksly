@@ -108,6 +108,7 @@
   <ItemGroup>
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Controllers\ProductsController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -125,8 +126,17 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Controllers\" />
     <Folder Include="Models\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Stocksly.Data\Stocksly.Data.csproj">
+      <Project>{f62af3c2-8ed6-407f-9b5a-fcff97cb84c0}</Project>
+      <Name>Stocksly.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Stocksly.Model\Stocksly.Domain.csproj">
+      <Project>{edb29285-eaa9-4674-bad6-f9a2f9477ba4}</Project>
+      <Name>Stocksly.Domain</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

@@ -6,9 +6,11 @@ using System.Threading.Tasks;
 
 namespace Stocksly.Domain.Inventory
 {
-    public class Category
+    public class ProductBrief
     {
         public int Id { get; set; }
         public string Name { get; set; }
+        public int SupplierId { get; set; }
+        public int CategoryId { get; set; }
     }
 }
