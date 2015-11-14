@@ -55,14 +55,14 @@
     <Compile Include="StockslyUow.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Stocksly.Model\Stocksly.Domain.csproj">
+    <None Include="App.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Stocksly.Domain\Stocksly.Domain.csproj">
       <Project>{edb29285-eaa9-4674-bad6-f9a2f9477ba4}</Project>
       <Name>Stocksly.Domain</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="App.config" />
-    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

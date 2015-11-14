@@ -5,6 +5,7 @@ using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Data.Entity.Infrastructure;
 
 namespace Stocksly.Data
 {
@@ -21,7 +22,15 @@ namespace Stocksly.Data
 
         public void Add(T entity)
         {
-            throw new NotImplementedException();
+            DbEntityEntry entry = db.Entry(entity);
+            if (entry.State != EntityState.Detached)
+            {
+                entry.State = EntityState.Added;
+            }
+            else
+            {
+                dbset.Add(entity);
+            }
         }
 
         public void Delete(int id)

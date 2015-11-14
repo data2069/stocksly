@@ -11,11 +11,18 @@ namespace Stocksly.Data.Services.Controllers
 {
     public class ProductsController : ApiController
     {
-        private readonly IStockslyUow uow;
+        private readonly IStockslyUow db;
 
-        public ProductsController(IStockslyUow db)
+        public ProductsController(IStockslyUow uow)
         {
-            uow = db;
+            db = uow;
+        }
+        
+        [HttpGet]
+        [Route("p")]
+        public IHttpActionResult GetProducts()
+        {
+            return Ok(new { Data = db.Products.GetAll().ToList() });
         }
 
         [HttpPost]
@@ -24,8 +31,8 @@ namespace Stocksly.Data.Services.Controllers
         {
             if (product != null)
             {
-                uow.Products.Add(product);
-                uow.Commit();
+                db.Products.Add(product);
+                db.Commit();
 
                 return Created<Product>("p/{id}", product);
             }
