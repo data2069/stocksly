@@ -24,14 +24,24 @@ namespace Stocksly.Data.Services.Controllers
         [Route("suppliers")]
         public IHttpActionResult GetSuppliers()
         {
-            return Ok(new { Data = db.Suppliers.GetAll().ToList() });
+            IEnumerable<Supplier> suppliers = db.Suppliers.GetAll()
+                .OrderBy(supplier => supplier)
+                .Take(100)
+                .ToList();
+
+            return Ok(new { Data = suppliers });
         }
         
         [HttpGet]
         [Route("categories")]
         public IHttpActionResult GetCategories()
         {
-            return Ok(new { Data = db.Categories.GetAll().ToList() });
+            IEnumerable<Category> categories = db.Categories.GetAll()
+                .OrderBy(category => category.Name)
+                .Take(100)
+                .ToList();
+
+            return Ok(new { Data = categories });
         }
     }
 }
