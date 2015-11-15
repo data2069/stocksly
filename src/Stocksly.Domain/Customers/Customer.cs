@@ -11,7 +11,8 @@ namespace Stocksly.Domain.Customers
     {
         public int Id { get; set; }
         public string Name { get; set; }
+        public string Mobile { get; set; }
         public string EmailAddress { get; set; }
-        public Address Contact { get; set; }
+        public Address PostalAddress { get; set; }
     }
 }

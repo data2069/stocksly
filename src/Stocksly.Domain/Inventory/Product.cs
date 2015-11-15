@@ -9,9 +9,11 @@ namespace Stocksly.Domain.Inventory
 {
     public class Product : ProductBrief
     {
+        public string Barcode { get; set; }
         public int ReorderQuantity { get; set; }
-        public int ReorderLevel { get; set; }
         public int Stocks { get; set; }
+        public decimal UnitPrice { get; set; }
+        public bool Archived { get; set; }
 
         #region Helper Attributes
 

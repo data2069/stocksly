@@ -40,8 +40,8 @@ namespace Stocksly.Data.Services.Controllers
             if (!string.IsNullOrWhiteSpace(query))
             {
                 IEnumerable<Product> result = db.Products.GetAll()
-                    .Where(product => product.Name.StartsWith(query))
-                    .OrderBy(product => product.Name)
+                    .Where(product => product.DisplayName.StartsWith(query))
+                    .OrderBy(product => product.DisplayName)
                     .Take(count)
                     .ToList();
 
@@ -90,7 +90,7 @@ namespace Stocksly.Data.Services.Controllers
 
                 Product rebranded = new Product
                 {
-                    Name = model.Name,
+                    DisplayName = model.Name,
                     ReorderQuantity = original.ReorderQuantity,
                     CategoryId = original.CategoryId,
                     SupplierId = original.SupplierId

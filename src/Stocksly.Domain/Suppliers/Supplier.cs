@@ -12,6 +12,8 @@ namespace Stocksly.Domain.Suppliers
         public int Id { get; set; }
         public string Name { get; set; }
         public string EmailAddress { get; set; }
-        public Address Contact { get; set; }
+        public string Telephone { get; set; }
+        public Address PostalAddress { get; set; }
+        public string CreditToken { get; set; }
     }
 }

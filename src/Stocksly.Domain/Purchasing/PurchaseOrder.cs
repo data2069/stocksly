@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Stocksly.Domain.Suppliers;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,17 +11,21 @@ namespace Stocksly.Domain.Purchasing
     {
         public int Id { get; set; }
         public DateTime OrderTime { get; set; }
+        public int Count { get; set; }
         public decimal Total { get; set; }
+        public int SupplierId { get; set; }
 
         #region Helper Attributes
 
-        public List<PurchaseOrderItem> PurchaseOrderItems { get; set; }
+        public List<PurchaseOrderItem> OrderItems { get; set; }
+        public Supplier Supplier { get; set; }
 
         #endregion
 
         public PurchaseOrder()
         {
-            PurchaseOrderItems = new List<PurchaseOrderItem>();
+            OrderItems = new List<PurchaseOrderItem>();
+            OrderTime = DateTime.Now;
         }
     }
 }
