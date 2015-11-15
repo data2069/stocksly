@@ -10,7 +10,7 @@ using System.Web.Http;
 
 namespace Stocksly.Data.Services.Controllers
 {
-    [Route("lookups")]
+    [RoutePrefix("lookups")]
     public class LookupsController : ApiController
     {
         private readonly IStockslyUow db;
