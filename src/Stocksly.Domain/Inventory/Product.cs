@@ -10,6 +10,7 @@ namespace Stocksly.Domain.Inventory
     public class Product : ProductBrief
     {
         public int ReorderQuantity { get; set; }
+        public int ReorderLevel { get; set; }
         public int Stocks { get; set; }
 
         #region Helper Attributes
