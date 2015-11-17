@@ -17,7 +17,9 @@ namespace Stocksly.Domain
         IRepository<Category> Categories { get; }
         IRepository<Product> Products { get; }
         IRepository<PurchaseOrder> PurchaseOrders { get; }
+        IRepository<PurchaseOrderItem> PurchaseOrderItems { get; }
         IRepository<SalesOrder> SalesOrders { get; }
+        IRepository<SalesOrderItem> SalesOrderItems { get; }
         IRepository<Supplier> Suppliers { get; }
 
         void Commit();

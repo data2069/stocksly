@@ -56,11 +56,27 @@ namespace Stocksly.Data
             }
         }
 
+        public IRepository<PurchaseOrderItem> PurchaseOrderItems
+        {
+            get
+            {
+                return GetRepository<PurchaseOrderItem>();
+            }
+        }
+
         public IRepository<SalesOrder> SalesOrders
         {
             get
             {
                 return GetRepository<SalesOrder>();
+            }
+        }
+
+        public IRepository<SalesOrderItem> SalesOrderItems
+        {
+            get
+            {
+                return GetRepository<SalesOrderItem>();
             }
         }
 
@@ -88,12 +104,14 @@ namespace Stocksly.Data
         {
             return new Dictionary<Type, dynamic>
             {
-                { typeof(ICustomersRepository), new EFRepository<Customer>(db) },
-                { typeof(ICategoriesRepository), new EFRepository<Category>(db) },
-                { typeof(IProductsRepository), new EFRepository<Product>(db) },
-                { typeof(IPurchaseOrdersRepository), new EFRepository<PurchaseOrder>(db) },
-                { typeof(ISalesOrdersRepository), new EFRepository<SalesOrder>(db) },
-                { typeof(ISuppliersRepository), new EFRepository<Supplier>(db) }
+                { typeof(Customer), new EFRepository<Customer>(db) },
+                { typeof(Category), new EFRepository<Category>(db) },
+                { typeof(Product), new EFRepository<Product>(db) },
+                { typeof(PurchaseOrder), new EFRepository<PurchaseOrder>(db) },
+                { typeof(PurchaseOrderItem), new EFRepository<PurchaseOrderItem>(db) },
+                { typeof(SalesOrder), new EFRepository<SalesOrder>(db) },
+                { typeof(SalesOrderItem), new EFRepository<SalesOrderItem>(db) },
+                { typeof(Supplier), new EFRepository<Supplier>(db) }
             };
         }
 

@@ -14,9 +14,7 @@ namespace Stocksly.Data
 {
     internal class StockslyDb : DbContext
     {
-        public StockslyDb() : base(nameOrConnectionString: "")
-        {
-        }
+        public StockslyDb() : base(nameOrConnectionString: "Stocksly") { }
 
         public DbSet<Customer> Customers { get; set; }
         public DbSet<Category> Categories { get; set; }

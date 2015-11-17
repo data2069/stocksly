@@ -14,6 +14,7 @@ namespace Stocksly.Data.Services.Controllers
     {
         private readonly IStockslyUow db;
 
+        public SalesController() : this(new StockslyUow()) { }
         public SalesController(IStockslyUow uow)
         {
             db = uow;
@@ -28,7 +29,7 @@ namespace Stocksly.Data.Services.Controllers
                 foreach (SalesOrderItem orderItem in order.OrderItems)
                 {
                     Product entity = db.Products.Find(orderItem.ProductId);
-                    entity.Quantity -= orderItem.Quantity;
+                    entity.Stocks -= orderItem.Quantity;
                 }
                 db.SalesOrders.Add(order);
                 db.Commit();

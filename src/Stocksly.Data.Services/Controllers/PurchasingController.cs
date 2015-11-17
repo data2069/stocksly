@@ -14,6 +14,7 @@ namespace Stocksly.Data.Services.Controllers
     {
         private readonly IStockslyUow db;
 
+        public PurchasingController() : this(new StockslyUow()) { }
         public PurchasingController(IStockslyUow uow)
         {
             db = uow;
