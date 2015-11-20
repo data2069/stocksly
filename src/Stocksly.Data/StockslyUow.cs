@@ -91,12 +91,12 @@ namespace Stocksly.Data
 
         public void Commit()
         {
-            using (TransactionScope txn = new TransactionScope())
-            {
-                db.SaveChanges();
-
-                txn.Complete();
-            }
+            db.SaveChanges();
+            //using (TransactionScope txn = new TransactionScope())
+            //{
+            //    db.SaveChanges();
+            //    txn.Complete();
+            //}
         }
 
         #region Helper Methods

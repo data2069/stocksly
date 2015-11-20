@@ -14,11 +14,12 @@ namespace Stocksly.Domain.Purchasing
         public int Count { get; set; }
         public decimal Total { get; set; }
         public int SupplierId { get; set; }
+        public string SupplierName { get; set; }
 
         #region Helper Attributes
 
         public List<PurchaseOrderItem> OrderItems { get; set; }
-        public Supplier Supplier { get; set; }
+        //public Supplier Supplier { get; set; }
 
         #endregion
 

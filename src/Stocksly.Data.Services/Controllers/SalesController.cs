@@ -30,11 +30,14 @@ namespace Stocksly.Data.Services.Controllers
                 {
                     Product entity = db.Products.Find(orderItem.ProductId);
                     entity.Stocks -= orderItem.Quantity;
+
+                    orderItem.ProductCode = entity.Code;
+                    orderItem.ProductDisplayName = entity.DisplayName;
                 }
                 db.SalesOrders.Add(order);
                 db.Commit();
 
-                return Ok(new { Data = order });
+                return Created("orders/id/" + order.Id, new { Id = order.Id });
             }
 
             return BadRequest(ModelState);

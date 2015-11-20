@@ -47,7 +47,13 @@ namespace Stocksly.Data
 
         public void Delete(T entity)
         {
-            throw new NotImplementedException();
+            DbEntityEntry entry = db.Entry(entity);
+            if (entry.State != EntityState.Deleted)
+            {
+                entry.State = EntityState.Deleted;
+            }
+            dbset.Attach(entity);
+            dbset.Remove(entity);
         }
 
         public T Find(int id)
@@ -62,7 +68,12 @@ namespace Stocksly.Data
 
         public void Update(T entity)
         {
-            throw new NotImplementedException();
+            DbEntityEntry entry = db.Entry(entity);
+            if (entry.State == EntityState.Detached)
+            {
+                dbset.Attach(entity);
+            }
+            entry.State = EntityState.Modified;
         }
     }
 }

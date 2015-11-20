@@ -12,6 +12,8 @@ namespace Stocksly.Domain.Sales
         public int Id { get; set; }
         public int SalesOrderId { get; set; }
         public int ProductId { get; set; }
+        public string ProductCode { get; set; }
+        public string ProductDisplayName { get; set; }
         public int CategoryId { get; set; }
         public int Quantity { get; set; }
         public decimal UnitPrice { get; set; }
@@ -21,8 +23,8 @@ namespace Stocksly.Domain.Sales
         #region Helper Attributes
 
         public SalesOrder SalesOrder { get; set; }
-        public Product Product { get; set; }
-        public Category Category { get; set; }
+        //public Product Product { get; set; }
+        //public Category Category { get; set; }
 
         #endregion
     }

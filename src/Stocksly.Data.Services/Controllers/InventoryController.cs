@@ -60,18 +60,18 @@ namespace Stocksly.Data.Services.Controllers
                 db.Products.Add(product);
                 db.Commit();
 
-                return Created("p/id/{id}", new { id = product.Id });
+                return Created("products/id/" + product.Id, new { id = product.Id });
             }
             return BadRequest(ModelState);
         }
 
-        [HttpDelete]
-        [Route("products")]
-        public IHttpActionResult Discontinue(dynamic model)
+        [HttpPost]
+        [Route("products/id/{id}/discontinue")]
+        public IHttpActionResult Discontinue(int id)
         {
-            if (model != null)
+            if (id > 0)
             {
-                Product entity = db.Products.Find(model.Id);
+                Product entity = db.Products.Find(id);
                 db.Products.Delete(entity);
                 db.Commit();
 
@@ -80,14 +80,13 @@ namespace Stocksly.Data.Services.Controllers
             return BadRequest(ModelState);
         }
 
-        [HttpPut]
-        [Route("products")]
-        public IHttpActionResult Rebrand(dynamic model)
+        [HttpPost]
+        [Route("products/id/{id}/rebrand")]
+        public IHttpActionResult Rebrand(int id, [FromBody]dynamic model)
         {
             if (model != null)
             {
-                Product original = db.Products.Find(model.Id);
-                db.Products.Delete(original);
+                Product original = db.Products.Find(id);
 
                 Product rebranded = new Product
                 {
@@ -97,6 +96,7 @@ namespace Stocksly.Data.Services.Controllers
                     SupplierId = original.SupplierId
                 };
                 db.Products.Add(rebranded);
+                db.Products.Delete(original);
 
                 db.Commit();
 
