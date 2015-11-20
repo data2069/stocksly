@@ -52,7 +52,7 @@ namespace Stocksly.Data.Services.Controllers
         [Route("customers")]
         public IHttpActionResult GetCustomers()
         {
-            IEnumerable<Customer> customers = db.Customers.GetAll();
+            IEnumerable<Customer> customers = db.Customers.GetAll().ToList();
             return Ok(new { Data = customers });
         }
 
@@ -60,7 +60,7 @@ namespace Stocksly.Data.Services.Controllers
         [Route("products")]
         public IHttpActionResult GetProducts()
         {
-            IEnumerable<Product> products = db.Products.GetAll();
+            IEnumerable<Product> products = db.Products.GetAll().ToList();
             return Ok(new { Data = products });
         }
 
@@ -68,7 +68,7 @@ namespace Stocksly.Data.Services.Controllers
         [Route("pos")]
         public IHttpActionResult GetPurchaseOrders()
         {
-            IEnumerable<PurchaseOrder> pos = db.PurchaseOrders.GetAll();
+            IEnumerable<PurchaseOrder> pos = db.PurchaseOrders.GetAll().ToList();
             return Ok(new { Data = pos });
         }
 
@@ -76,7 +76,7 @@ namespace Stocksly.Data.Services.Controllers
         [Route("poitems")]
         public IHttpActionResult GetPurchaseOrderItems()
         {
-            IEnumerable<PurchaseOrderItem> pos = db.PurchaseOrderItems.GetAll();
+            IEnumerable<PurchaseOrderItem> pos = db.PurchaseOrderItems.GetAll().ToList();
             return Ok(new { Data = pos });
         }
 
@@ -84,7 +84,7 @@ namespace Stocksly.Data.Services.Controllers
         [Route("sos")]
         public IHttpActionResult GetSalesOrders()
         {
-            IEnumerable<SalesOrder> pos = db.SalesOrders.GetAll();
+            IEnumerable<SalesOrder> pos = db.SalesOrders.GetAll().ToList();
             return Ok(new { Data = pos });
         }
 
@@ -92,7 +92,7 @@ namespace Stocksly.Data.Services.Controllers
         [Route("soitems")]
         public IHttpActionResult GetSalesOrderItems()
         {
-            IEnumerable<SalesOrderItem> pos = db.SalesOrderItems.GetAll();
+            IEnumerable<SalesOrderItem> pos = db.SalesOrderItems.GetAll().ToList();
             return Ok(new { Data = pos });
         }
     }

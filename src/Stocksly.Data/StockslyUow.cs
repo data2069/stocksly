@@ -10,6 +10,7 @@ using Stocksly.Domain.Purchasing;
 using Stocksly.Domain.Sales;
 using Stocksly.Domain.Suppliers;
 using System.Data.Entity;
+using System.Transactions;
 
 namespace Stocksly.Data
 {
@@ -90,7 +91,12 @@ namespace Stocksly.Data
 
         public void Commit()
         {
-            db.SaveChanges();
+            using (TransactionScope txn = new TransactionScope())
+            {
+                db.SaveChanges();
+
+                txn.Complete();
+            }
         }
 
         #region Helper Methods
