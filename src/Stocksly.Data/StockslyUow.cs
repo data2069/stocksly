@@ -14,7 +14,7 @@ using System.Transactions;
 
 namespace Stocksly.Data
 {
-    public class StockslyUow : IStockslyUow
+    public class StockslyUow : IStockslyUow, IDisposable
     {
         private readonly StockslyDb db;
         private readonly IDictionary<Type, dynamic> repositories;
@@ -129,5 +129,23 @@ namespace Stocksly.Data
         }
 
         #endregion
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                if (db != null)
+                {
+                    db.Dispose();
+                }
+            }
+        }
+
     }
 }

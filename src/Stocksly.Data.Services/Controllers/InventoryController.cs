@@ -91,7 +91,7 @@ namespace Stocksly.Data.Services.Controllers
                 Product rebranded = new Product
                 {
                     DisplayName = model.Name,
-                    ReorderQuantity = original.ReorderQuantity,
+                    ReorderLevel = original.ReorderLevel,
                     CategoryId = original.CategoryId,
                     SupplierId = original.SupplierId
                 };

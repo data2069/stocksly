@@ -20,6 +20,15 @@ namespace Stocksly.Data.Services.Controllers
             db = uow;
         }
 
+        protected override void Dispose(bool disposing)
+        {
+            if (db != null && db is IDisposable)
+            {
+                ((IDisposable)db).Dispose();
+            }
+            base.Dispose(disposing);
+        }
+
         [HttpPost]
         [Route("purchase")]
         public IHttpActionResult Purchase(PurchaseOrder order)
