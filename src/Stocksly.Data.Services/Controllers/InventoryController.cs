@@ -20,14 +20,26 @@ namespace Stocksly.Data.Services.Controllers
             db = uow;
         }
 
-        [HttpGet]
-        [Route("products/id/{id}")]
-        public IHttpActionResult GetProducts(int id)
+        protected override void Dispose(bool disposing)
         {
-            Product entity = db.Products.Find(id);
-            if (entity != null)
+            if (db != null && db is IDisposable)
             {
-                return Ok(new { Data = entity });
+                ((IDisposable)db).Dispose();
+            }
+            base.Dispose(disposing);
+        }
+
+        [HttpGet]
+        [Route("products/code/{code}")]
+        public IHttpActionResult GetProducts(string code)
+        {
+            Product product = db.Products.GetAll()
+                .Where(prod => !prod.Discontinued)
+                .FirstOrDefault(prod => prod.Code == code);
+
+            if (product != null)
+            {
+                return Ok(new { Result = product });
             }
             return NotFound();
         }
@@ -46,9 +58,9 @@ namespace Stocksly.Data.Services.Controllers
                     .Take(count)
                     .ToList();
 
-                return Ok(new { Data = result });
+                return Ok(new { Result = result });
             }
-            return BadRequest(ModelState);
+            return Conflict();
         }
 
         [HttpPost]
@@ -57,52 +69,78 @@ namespace Stocksly.Data.Services.Controllers
         {
             if (product != null)
             {
-                db.Products.Add(product);
-                db.Commit();
+                if (string.IsNullOrWhiteSpace(product.Code))
+                {
+                    ModelState.AddModelError(key: "ProductCode", errorMessage: "Product must have a code.");
+                }
 
-                return Created("products/id/" + product.Id, new { id = product.Id });
+                if (ModelState.IsValid)
+                {
+                    db.Products.Add(product);
+                    db.Commit();
+
+                    return Created("products/code/" + product.Code, new { code = product.Code });
+                }
+
+                return BadRequest(ModelState);
             }
-            return BadRequest(ModelState);
+            return Conflict();
         }
 
         [HttpPost]
-        [Route("products/id/{id}/discontinue")]
-        public IHttpActionResult Discontinue(int id)
+        [Route("products/code/{code}/discontinue")]
+        public IHttpActionResult Discontinue(string code)
         {
-            if (id > 0)
+            if (!string.IsNullOrWhiteSpace(code))
             {
-                Product entity = db.Products.Find(id);
-                db.Products.Delete(entity);
-                db.Commit();
+                Product product = db.Products.GetAll()
+                    .Where(prod => !prod.Discontinued)
+                    .FirstOrDefault(prod => prod.Code == code);
 
-                return Ok(new { Data = entity });
+                if (product != null)
+                {
+                    db.Products.Delete(product);
+                    db.Commit();
+                    return Ok(new { Result = product });
+                }
+
+                ModelState.AddModelError(key: "ProductCode", errorMessage: code + " not found or has been discontinued.");
+                return BadRequest(ModelState);
             }
-            return BadRequest(ModelState);
+            return Conflict();
         }
 
         [HttpPost]
-        [Route("products/id/{id}/rebrand")]
-        public IHttpActionResult Rebrand(int id, [FromBody]dynamic model)
+        [Route("products/code/{code}/rebrand")]
+        public IHttpActionResult Rebrand(string code, [FromBody]dynamic model)
         {
             if (model != null)
             {
-                Product original = db.Products.Find(id);
+                Product original = db.Products.GetAll()
+                    .Where(prod => !prod.Discontinued)
+                    .FirstOrDefault(prod => prod.Code == code);
 
-                Product rebranded = new Product
+                if (original != null)
                 {
-                    DisplayName = model.Name,
-                    ReorderLevel = original.ReorderLevel,
-                    CategoryId = original.CategoryId,
-                    SupplierId = original.SupplierId
-                };
-                db.Products.Add(rebranded);
-                db.Products.Delete(original);
+                    Product rebranded = new Product
+                    {
+                        DisplayName = model.Name,
+                        ReorderLevel = original.ReorderLevel,
+                        CategoryId = original.CategoryId,
+                        SupplierId = original.SupplierId
+                    };
+                    db.Products.Add(rebranded);
+                    db.Products.Delete(original);
 
-                db.Commit();
+                    db.Commit();
 
-                return Ok(new { Data = rebranded });
+                    return Created(location: "products/code/" + code, content: new { Result = rebranded });
+                }
+
+                ModelState.AddModelError(key: "ProductCode", errorMessage: code + " not found or has been discontinued.");
+                return BadRequest(ModelState);
             }
-            return BadRequest(ModelState);
+            return Conflict();
         }
     }
 }

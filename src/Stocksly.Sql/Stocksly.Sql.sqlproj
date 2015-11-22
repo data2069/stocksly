@@ -71,6 +71,9 @@
     <Build Include="Tables\Customers.sql" />
     <Build Include="Tables\SalesOrders.sql" />
     <Build Include="Tables\SalesOrderItems.sql" />
+    <Build Include="Script.GetAllLookups.sql" />
+    <Build Include="Script.GetAllSales.sql" />
+    <Build Include="Script.GetAllPurchases.sql" />
   </ItemGroup>
   <ItemGroup>
     <PostDeploy Include="Script.PostDeployment.sql" />

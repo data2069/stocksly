@@ -12,6 +12,6 @@ namespace Stocksly.Domain.Core
         public string City { get; set; }
         public string State { get; set; }
         public int CountryId { get; set; }
-        public string CountryName { get; set; }
+        public string CountryShortName { get; set; }
     }
 }

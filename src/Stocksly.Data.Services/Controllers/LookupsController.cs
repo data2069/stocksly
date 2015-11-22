@@ -23,7 +23,16 @@ namespace Stocksly.Data.Services.Controllers
         {
             db = uow;
         }
-        
+
+        protected override void Dispose(bool disposing)
+        {
+            if (db != null && db is IDisposable)
+            {
+                ((IDisposable)db).Dispose();
+            }
+            base.Dispose(disposing);
+        }
+
         [HttpGet]
         [Route("suppliers")]
         public IHttpActionResult GetSuppliers()
@@ -33,7 +42,7 @@ namespace Stocksly.Data.Services.Controllers
                 .Take(100)
                 .ToList();
 
-            return Ok(new { Data = suppliers });
+            return Ok(new { Result = suppliers });
         }
         
         [HttpGet]
@@ -45,7 +54,7 @@ namespace Stocksly.Data.Services.Controllers
                 .Take(100)
                 .ToList();
 
-            return Ok(new { Data = categories });
+            return Ok(new { Result = categories });
         }
 
         [HttpGet]
@@ -53,7 +62,7 @@ namespace Stocksly.Data.Services.Controllers
         public IHttpActionResult GetCustomers()
         {
             IEnumerable<Customer> customers = db.Customers.GetAll().ToList();
-            return Ok(new { Data = customers });
+            return Ok(new { Result = customers });
         }
 
         [HttpGet]
@@ -61,7 +70,7 @@ namespace Stocksly.Data.Services.Controllers
         public IHttpActionResult GetProducts()
         {
             IEnumerable<Product> products = db.Products.GetAll().ToList();
-            return Ok(new { Data = products });
+            return Ok(new { Result = products });
         }
 
         [HttpGet]
@@ -69,7 +78,7 @@ namespace Stocksly.Data.Services.Controllers
         public IHttpActionResult GetPurchaseOrders()
         {
             IEnumerable<PurchaseOrder> pos = db.PurchaseOrders.GetAll().ToList();
-            return Ok(new { Data = pos });
+            return Ok(new { Result = pos });
         }
 
         [HttpGet]
@@ -77,7 +86,7 @@ namespace Stocksly.Data.Services.Controllers
         public IHttpActionResult GetPurchaseOrderItems()
         {
             IEnumerable<PurchaseOrderItem> pos = db.PurchaseOrderItems.GetAll().ToList();
-            return Ok(new { Data = pos });
+            return Ok(new { Result = pos });
         }
 
         [HttpGet]
@@ -85,7 +94,7 @@ namespace Stocksly.Data.Services.Controllers
         public IHttpActionResult GetSalesOrders()
         {
             IEnumerable<SalesOrder> pos = db.SalesOrders.GetAll().ToList();
-            return Ok(new { Data = pos });
+            return Ok(new { Result = pos });
         }
 
         [HttpGet]
@@ -93,7 +102,7 @@ namespace Stocksly.Data.Services.Controllers
         public IHttpActionResult GetSalesOrderItems()
         {
             IEnumerable<SalesOrderItem> pos = db.SalesOrderItems.GetAll().ToList();
-            return Ok(new { Data = pos });
+            return Ok(new { Result = pos });
         }
     }
 }

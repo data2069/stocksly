@@ -11,6 +11,7 @@ namespace Stocksly.Domain.Purchasing
     {
         public int Id { get; set; }
         public int Quantity { get; set; }
+        public int StocksAvailable { get; set; }
         public decimal UnitPrice { get; set; }
         public decimal Total { get; set; }
 

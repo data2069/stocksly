@@ -10,7 +10,9 @@ namespace Stocksly.Domain.Sales
     public class SalesOrderItem
     {
         public int Id { get; set; }
+        public string Barcode { get; set; }
         public int Quantity { get; set; }
+        public int StocksRemainings { get; set; }
         public decimal UnitPrice { get; set; }
         public decimal Discount { get; set; }
         public decimal Total { get; set; }

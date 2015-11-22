@@ -20,6 +20,15 @@ namespace Stocksly.Data.Services.Controllers
             db = uow;
         }
 
+        protected override void Dispose(bool disposing)
+        {
+            if (db != null && db is IDisposable)
+            {
+                ((IDisposable)db).Dispose();
+            }
+            base.Dispose(disposing);
+        }
+
         [HttpPost]
         [Route("order")]
         public IHttpActionResult Order(SalesOrder order)
@@ -28,19 +37,39 @@ namespace Stocksly.Data.Services.Controllers
             {
                 foreach (SalesOrderItem orderItem in order.OrderItems)
                 {
-                    Product entity = db.Products.Find(orderItem.ProductId);
-                    entity.Stocks -= orderItem.Quantity;
+                    Product product = db.Products.GetAll()
+                        .Where(prod => !prod.Discontinued)
+                        .FirstOrDefault(prod => prod.Code == orderItem.ProductCode);
 
-                    orderItem.ProductCode = entity.Code;
-                    orderItem.ProductDisplayName = entity.DisplayName;
+                    if (product == null)
+                    {
+                        ModelState.AddModelError(key: "ProductCode", errorMessage: orderItem.ProductCode + " not found or has been discontinued.");
+                        continue;
+                    }
+                    if (orderItem.Quantity > product.Stocks)
+                    {
+                        ModelState.AddModelError(key: "Quantity", errorMessage: orderItem.ProductCode + " insufficient stocks.");
+                        continue;
+                    }
+
+                    product.Stocks -= orderItem.Quantity;
+
+                    orderItem.ProductId = product.Id;
+                    orderItem.ProductDisplayName = product.DisplayName;
+                    orderItem.StocksRemainings = product.Stocks + orderItem.Quantity;
                 }
-                db.SalesOrders.Add(order);
-                db.Commit();
 
-                return Created("orders/id/" + order.Id, new { Id = order.Id });
+                if (ModelState.IsValid)
+                {
+                    db.SalesOrders.Add(order);
+                    db.Commit();
+
+                    return Created(location: "orders/id/" + order.Id, content: new { Id = order.Id });
+                }
+                BadRequest(ModelState);
             }
 
-            return BadRequest(ModelState);
+            return Conflict();
         }
     }
 }
