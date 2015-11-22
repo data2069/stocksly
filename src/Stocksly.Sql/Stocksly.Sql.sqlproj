@@ -72,4 +72,7 @@
     <Build Include="Tables\SalesOrders.sql" />
     <Build Include="Tables\SalesOrderItems.sql" />
   </ItemGroup>
+  <ItemGroup>
+    <PostDeploy Include="Script.PostDeployment.sql" />
+  </ItemGroup>
 </Project>
