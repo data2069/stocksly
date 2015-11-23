@@ -14,14 +14,15 @@ namespace Stocksly.Domain.Sales
         public int Count { get; set; }
         public decimal Discount { get; set; }
         public decimal Total { get; set; }
+
+        #region Associations
+
+        public Customer Customer { get; set; }
         public int CustomerId { get; set; }
         public string CustomerName { get; set; }
         public string CustomerEmailAddress { get; set; }
         public string CustomerMobile { get; set; }
 
-        #region Helper Attributes
-
-        //public Customer Customer { get; set; }
         public List<SalesOrderItem> OrderItems { get; private set; }
 
         #endregion

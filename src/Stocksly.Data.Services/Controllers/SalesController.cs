@@ -1,4 +1,5 @@
 ﻿using Stocksly.Domain;
+using Stocksly.Domain.Customers;
 using Stocksly.Domain.Inventory;
 using Stocksly.Domain.Sales;
 using System;
@@ -35,37 +36,58 @@ namespace Stocksly.Data.Services.Controllers
         {
             if (order != null)
             {
-                foreach (SalesOrderItem orderItem in order.OrderItems)
+                Customer customer = db.Customers.Find(order.CustomerId);
+                if (customer != null)
                 {
-                    Product product = db.Products.GetAll()
-                        .Where(prod => !prod.Discontinued)
-                        .FirstOrDefault(prod => prod.Code == orderItem.ProductCode);
+                    order.Customer = customer;
+                    order.CustomerName = customer.Name;
+                    order.CustomerMobile = customer.Mobile;
+                    order.CustomerEmailAddress = customer.EmailAddress;
 
-                    if (product == null)
+                    foreach (SalesOrderItem orderItem in order.OrderItems)
                     {
-                        ModelState.AddModelError(key: "ProductCode", errorMessage: orderItem.ProductCode + " not found or has been discontinued.");
-                        continue;
+                        Product product = db.Products.GetAll()
+                            .Where(prod => !prod.Discontinued)
+                            .FirstOrDefault(prod => prod.Code == orderItem.ProductCode);
+
+                        if (product != null)
+                        {
+                            if (orderItem.Quantity < product.Stocks)
+                            {
+                                product.Stocks -= orderItem.Quantity;
+
+                                orderItem.Product = product;
+                                orderItem.ProductId = product.Id;
+                                orderItem.UnitPrice = product.UnitPrice;
+                                orderItem.ProductDisplayName = product.DisplayName;
+                                orderItem.StocksRemaining = product.Stocks + orderItem.Quantity;
+
+                                orderItem.CategoryId = product.CategoryId;
+                            }
+                            else
+                            {
+                                ModelState.AddModelError(key: "Quantity", errorMessage: orderItem.ProductCode + " insufficient stocks.");
+                            }
+                        }
+                        else
+                        {
+                            ModelState.AddModelError(key: "ProductCode", errorMessage: orderItem.ProductCode + " not found or has been discontinued.");
+                        }
                     }
-                    if (orderItem.Quantity > product.Stocks)
+
+                    if (ModelState.IsValid)
                     {
-                        ModelState.AddModelError(key: "Quantity", errorMessage: orderItem.ProductCode + " insufficient stocks.");
-                        continue;
+                        db.SalesOrders.Add(order);
+                        db.Commit();
+
+                        return Created(location: "orders/id/" + order.Id, content: new { Id = order.Id });
                     }
-
-                    product.Stocks -= orderItem.Quantity;
-
-                    orderItem.ProductId = product.Id;
-                    orderItem.ProductDisplayName = product.DisplayName;
-                    orderItem.StocksRemainings = product.Stocks + orderItem.Quantity;
+                }
+                else
+                {
+                    ModelState.AddModelError(key: "CustomerId", errorMessage: order.CustomerId + " not found.");
                 }
 
-                if (ModelState.IsValid)
-                {
-                    db.SalesOrders.Add(order);
-                    db.Commit();
-
-                    return Created(location: "orders/id/" + order.Id, content: new { Id = order.Id });
-                }
                 BadRequest(ModelState);
             }
 

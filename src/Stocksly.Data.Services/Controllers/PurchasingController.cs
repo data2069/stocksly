@@ -1,6 +1,7 @@
 ﻿using Stocksly.Domain;
 using Stocksly.Domain.Inventory;
 using Stocksly.Domain.Purchasing;
+using Stocksly.Domain.Suppliers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -35,33 +36,51 @@ namespace Stocksly.Data.Services.Controllers
         {
             if (order != null)
             {
-                foreach (PurchaseOrderItem orderItem in order.OrderItems)
+                Supplier supplier = db.Suppliers.Find(order.SupplierId);
+                if (supplier != null)
                 {
-                    Product product = db.Products.GetAll()
-                        .Where(prod => !prod.Discontinued)
-                        .FirstOrDefault(prod => prod.Code == orderItem.ProductCode);
+                    order.Supplier = supplier;
+                    order.SupplierName = supplier.Name;
+                    order.SupplierEmailAddress = supplier.EmailAddress;
+                    order.SupplierCreditToken = supplier.CreditToken;
 
-                    if (product == null)
+                    foreach (PurchaseOrderItem orderItem in order.OrderItems)
                     {
-                        ModelState.AddModelError(key: "ProductCode", errorMessage: orderItem.ProductCode + " not found or has been discontinued.");
-                        continue;
+                        Product product = db.Products.GetAll()
+                            .Where(prod => !prod.Discontinued)
+                            .FirstOrDefault(prod => prod.Code == orderItem.ProductCode);
+
+                        if (product != null)
+                        {
+                            product.Stocks += orderItem.Quantity;
+
+                            orderItem.Product = product;
+                            orderItem.ProductId = product.Id;
+                            orderItem.UnitPrice = product.UnitPrice;
+                            orderItem.ProductDisplayName = product.DisplayName;
+                            orderItem.StocksAvailable = product.Stocks - orderItem.Quantity;
+
+                            orderItem.CategoryId = product.CategoryId;
+                        }
+                        else
+                        {
+                            ModelState.AddModelError(key: "ProductCode", errorMessage: orderItem.ProductCode + " not found or has been discontinued.");
+                        }
                     }
 
-                    product.Stocks += orderItem.Quantity;
-                    db.Products.Update(product);
+                    if (ModelState.IsValid)
+                    {
+                        db.PurchaseOrders.Add(order);
+                        db.Commit();
 
-                    orderItem.ProductId = product.Id;
-                    orderItem.ProductDisplayName = product.DisplayName;
-                    orderItem.StocksAvailable = product.Stocks - orderItem.Quantity;
+                        return Created(location: "purchaseorders/id/" + order.Id, content: new { id = order.Id });
+                    }
                 }
-
-                if (ModelState.IsValid)
+                else
                 {
-                    db.PurchaseOrders.Add(order);
-                    db.Commit();
-
-                    return Created(location: "purchaseorders/id/" + order.Id, content: new { id = order.Id });
+                    ModelState.AddModelError(key: "SupplierId", errorMessage: order.SupplierId + " not found.");
                 }
+
                 return BadRequest(ModelState);
             }
 
